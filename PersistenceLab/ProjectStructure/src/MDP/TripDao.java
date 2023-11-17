@@ -1,13 +1,15 @@
 package MDP;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class TripDao extends AbstractDAOA{
-	
-	String depS = "from";
-	String destS = "to";
+	/*String depS = "from";
+	String destS = "to";*/
 	
 	public int createTrip(Trip t) {
 		PreparedStatement pst = null;
@@ -25,7 +27,12 @@ public class TripDao extends AbstractDAOA{
 		return 1;
 	}
 	
-	public Trip findTripById(long id) {
+	public Trip findTripById(long id) throws IOException {
+		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("en.properties");
+	    Properties langProps = new Properties();
+	    langProps.load(inputStream);
+	    String depS = langProps.getProperty("dep");
+	    String destS = langProps.getProperty("dest");
 		PreparedStatement pst = null;
         ResultSet rs;
         String sql = "select * from trip where id= ?";
