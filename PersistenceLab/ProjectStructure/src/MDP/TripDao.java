@@ -6,6 +6,9 @@ import java.sql.SQLException;
 
 public class TripDao extends AbstractDAOA{
 	
+	String depS = "from";
+	String destS = "to";
+	
 	public int createTrip(Trip t) {
 		PreparedStatement pst = null;
         String sql = "insert into trip (id, departure, destination, price) values (?,?,?,?)";
@@ -34,7 +37,7 @@ public class TripDao extends AbstractDAOA{
             	PlaceDao pDao = new PlaceDao();
                 Place dep = pDao.findPlaceById(rs.getLong("departure"));
                 Place dest = pDao.findPlaceById(rs.getLong("destination"));
-                System.out.println(rs.getLong("id") + ": from " + dep.getName() + " to " + dest.getName());
+                System.out.println(rs.getLong("id") + ": " + depS + " " + dep.getName() + " " + destS + " " + dest.getName());
                 return new Trip(rs.getLong("id"), dep, dest, rs.getDouble("price"));
             }
         } catch (SQLException exp) {
